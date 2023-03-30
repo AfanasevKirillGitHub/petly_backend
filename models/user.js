@@ -26,6 +26,11 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Phone is required"],
     },
+    birthday: {
+      type: Date,
+      min: "1987-09-28",
+      max: "1994-05-23",
+    },
     avatarURL: {
       type: String,
       default: null,
