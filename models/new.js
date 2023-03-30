@@ -23,10 +23,10 @@ const newsSchema = new Schema(
         required: true,
         description: "News description in English",
       },
-      ru: {
+      ua: {
         type: String,
         required: true,
-        description: "News description in Russian",
+        description: "News description in Ukr",
       },
     },
     date: {
