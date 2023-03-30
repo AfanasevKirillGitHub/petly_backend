@@ -19,4 +19,6 @@ router.patch("/update", auth, ctrlWrapper(ctrl.update));
 
 router.post("/jwtrefresh", auth, ctrlWrapper(ctrl.refreshToken));
 
+router.get("/current", auth, ctrlWrapper(ctrl.getUserInfo));
+
 module.exports = router;
