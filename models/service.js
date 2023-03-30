@@ -4,25 +4,44 @@ const { validationError } = require("../helpers");
 const serviceSchema = new Schema(
   {
     name: {
-      type: String,
-      required: [true, "Name is required"],
+      en: {
+        type: String,
+        required: [true, "Name is required"],
+        description: "Name of service",
+      },
+      ua: {
+        type: String,
+        required: [true, "Name is required"],
+        description: "Name of service",
+      },
     },
-    type: {
+    time: {
       type: Date,
-      required: [true, "Type is required"],
+      required: [true, "Time is required"],
+      description: "Scheduel",
     },
     address: {
-      type: String,
-      required: [true, "Address is required"],
+      en: {
+        type: String,
+        required: [true, "Address is required"],
+        description: "Address of service",
+      },
+      ua: {
+        type: String,
+        required: [true, "Address is required"],
+        description: "Address of service",
+      },
     },
     email: {
       type: String,
       required: [true, "Email is required"],
       unique: true,
+      description: "Email of service",
     },
     phone: {
       type: String,
       required: [true, "Phone is required"],
+      description: "Phone of service",
     },
   },
   { versionKey: false, timestamps: true }
