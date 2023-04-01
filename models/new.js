@@ -35,6 +35,11 @@ const newsSchema = new Schema(
       required: true,
       description: "News creation date",
     },
+    img: {
+      type: String,
+      required: true,
+      description: "Img news",
+    },
     link: {
       type: String,
       required: true,

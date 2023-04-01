@@ -2,7 +2,7 @@ const { News } = require("../../models/new");
 const { BadRequest } = require("http-errors");
 
 const getAllNews = async (req, res) => {
-  const { lang = "ua" } = req.query;
+  const { lang = "ua", key = "" } = req.query;
 
   const allowedLanguages = ["ua", "en"];
 
@@ -12,19 +12,25 @@ const getAllNews = async (req, res) => {
     );
   }
 
-  const news = await News.find(
-    {
-      [`title.${lang}`]: { $exists: true },
-    },
+  const newsFilter = {
+    [`title.${lang}`]: { $exists: true },
+  };
 
-    {
-      [`title.${lang}`]: 1,
-      [`description.${lang}`]: 1,
-      link: 1,
-      date: 1,
-      _id: 0,
-    }
-  );
+  if (key) {
+    newsFilter.$or = [
+      { [`title.${lang}`]: { $regex: key, $options: "i" } },
+      { [`description.${lang}`]: { $regex: key, $options: "i" } },
+    ];
+  }
+
+  const news = await News.find(newsFilter, {
+    [`title.${lang}`]: 1,
+    [`description.${lang}`]: 1,
+    link: 1,
+    img: 1,
+    date: 1,
+    _id: 1,
+  });
 
   res.json({
     message: "Successfully",
