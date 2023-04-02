@@ -3,8 +3,7 @@ const getUserInfo = async (req, res) => {
 
   res.status(200).json({
     stauts: "success",
-    code: 200,
-    data: {
+    dataUser: {
       user: {
         avatarURL,
         name,

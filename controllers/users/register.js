@@ -23,8 +23,11 @@ const register = async (req, res) => {
   res.status(201).json({
     message: "Registration completed successfully",
     dataUser: {
-      name: newUser.name,
-      email: newUser.email,
+      name: user.name,
+      email: user.email,
+      birthday: user.birthday,
+      phone: user.phone,
+      avatarURL: user.avatarURL,
       token: newUser.token,
     },
   });
