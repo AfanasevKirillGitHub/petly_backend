@@ -1,6 +1,6 @@
 const { User } = require("../../models/user");
 const { Conflict } = require("http-errors");
-const bcrypt = require("bcryptjs");
+const { createToken } = require("../../helpers");
 
 const register = async (req, res) => {
   const { name, email, password, city, phone } = req.body;
@@ -9,21 +9,23 @@ const register = async (req, res) => {
     throw new Conflict("Email in use");
   }
 
-  const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-  const newUser = await User.create({
-    name,
-    email,
-    password: hashPassword,
-    city,
-    phone,
-    avatarURL: null 
-  });
+  const newUser = new User({ name, email, avatarURL: null, city, phone });
+  await newUser.setPassword(password);
+
+  const payload = {
+    id: newUser._id,
+  };
+  const token = createToken(payload);
+  newUser.token = token;
+
+  await newUser.save();
 
   res.status(201).json({
     message: "Registration completed successfully",
-    newUser: {
-        name: newUser.name,
-        email: newUser.email,
+    dataUser: {
+      name: newUser.name,
+      email: newUser.email,
+      token: newUser.token,
     },
   });
 };

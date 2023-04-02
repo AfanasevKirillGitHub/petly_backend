@@ -1,8 +1,9 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
+const bcrypt = require("bcryptjs");
 const { validationError } = require("../helpers");
 
-const userSchema = new Schema(
+const userSchema = Schema(
   {
     name: {
       type: String,
@@ -43,7 +44,16 @@ const userSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
+userSchema.methods.setPassword = async function (password) {
+  this.password = await bcrypt.hash(password, 10);
+};
+
+userSchema.methods.verifyPassword = function (password) {
+  return bcrypt.compare(password, this.password);
+};
+
 userSchema.post("save", validationError);
+userSchema.post("findOneAndUpdate", validationError);
 
 const registerSchema = Joi.object({
   name: Joi.string().required(),

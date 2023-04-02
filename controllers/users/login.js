@@ -1,8 +1,7 @@
 const { User } = require("../../models/user");
 const { Unauthorized } = require("http-errors");
-const { SECRET_KEY } = process.env;
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const { createToken } = require("../../helpers");
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -16,12 +15,14 @@ const login = async (req, res) => {
   const payload = {
     id: user._id,
   };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
+
+  const token = createToken(payload);
   await User.findByIdAndUpdate(user._id, { token });
 
   res.status(200).json({
     message: "Login completed successfully",
     dataUser: {
+      name: user.name,
       email: user.email,
       token,
     },
