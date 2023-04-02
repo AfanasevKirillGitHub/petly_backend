@@ -24,6 +24,9 @@ const login = async (req, res) => {
     dataUser: {
       name: user.name,
       email: user.email,
+      birthday: user.birthday,
+      phone: user.phone,
+      avatarURL: user.avatarURL,
       token,
     },
   });
