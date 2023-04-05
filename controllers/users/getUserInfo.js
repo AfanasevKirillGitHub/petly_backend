@@ -4,14 +4,12 @@ const getUserInfo = async (req, res) => {
   res.status(200).json({
     stauts: "success",
     dataUser: {
-      user: {
-        avatarURL,
-        name,
-        email,
-        birthday,
-        phone,
-        city,
-      },
+      avatarURL,
+      name,
+      email,
+      birthday,
+      phone,
+      city,
     },
   });
 };
