@@ -26,15 +26,17 @@ const getAllNews = async (req, res) => {
 
   const news = await News.find(
     newsFilter,
-    { skip, limit: Number(limit) },
-    {
-      [`title.${lang}`]: 1,
-      [`description.${lang}`]: 1,
-      link: 1,
-      img: 1,
-      date: 1,
-      _id: 1,
-    }
+    "-createdAt -updatedAt",
+    { skip, limit: +limit }
+    // {
+    //   [`title.${lang}`]: 1,
+    //   [`description.${lang}`]: 1,
+    //   link: 1,
+    //   img: 1,
+    //   date: 1,
+    //   _id: 1,
+    //   limit: limit,
+    // }
   );
 
   res.json({
