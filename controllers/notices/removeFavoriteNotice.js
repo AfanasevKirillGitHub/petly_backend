@@ -3,7 +3,8 @@ const HttpError = require("../../helpers");
 
 const removeFavoriteNotice = async (req, res) => {
     const {noticeId} = req.params;
-    const result = await Notice.findByIdAndRemove(noticeId);
+    // const result = await Notice.findByIdAndRemove(noticeId);
+    const result = await Notice.findByIdAndUpdate(noticeId, {favorite: false});
     
     if (!result) {
         throw HttpError(404, "Not found");
