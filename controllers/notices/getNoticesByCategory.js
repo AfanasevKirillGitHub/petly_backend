@@ -2,7 +2,9 @@ const { Notice } = require("../../models");
 const { BadRequest } = require("http-errors");
 
 const getAllNotices = async (req, res) => {
-  const { lang = "ua", key = "", page = 1, limit = 12 } = req.query;
+  const category = req.params;
+
+  const { lang = "ua", page = 1, limit = 12 } = req.query;
 
   // ------- Пренести в константи
   const languages = {
@@ -12,7 +14,7 @@ const getAllNotices = async (req, res) => {
 
   const allowedLanguages = Object.values(languages);
   const stringifiedAllowedLanguages = allowedLanguages.join(", ");
-  // ------- Пренести в константи---end
+  // ------- Пренести в константи
 
   if (!allowedLanguages.includes(lang)) {
     throw BadRequest(
@@ -20,16 +22,10 @@ const getAllNotices = async (req, res) => {
     );
   }
 
-  const noticesFilter = { [`title.${lang}`]: { $exists: true } };
-
-  if (key) {
-    noticesFilter.$or = [{ [`title.${lang}`]: { $regex: key, $options: "i" } }];
-  }
-
   const skip = (page - 1) * limit;
 
   const notices = await Notice.find(
-    noticesFilter,
+    category,
     {
       _id: 1,
       category: 1,
