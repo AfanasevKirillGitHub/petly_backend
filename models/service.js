@@ -18,7 +18,7 @@ const serviceSchema = new Schema(
     time: {
       type: Date,
       required: [true, "Time is required"],
-      description: "Scheduel",
+      description: "Schedule",
     },
     address: {
       en: {
