@@ -9,7 +9,6 @@ const noticeSchema = new Schema(
       type: String,
       enum: ["sell", "lost-found", "for-free"],
       required: [true, "Category is required"],
-      default: "my-ads",
       description: "Notice categories",
     },
     title: {
