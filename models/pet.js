@@ -8,7 +8,7 @@ const petSchema = new Schema(
       type: String,
       required: [true, "Name is required"],
     },
-    birth: {
+    birthday: {
       type: String,
       required: [true, "Date of birth is required"],
     },
@@ -23,7 +23,8 @@ const petSchema = new Schema(
     },
     comments: {
       type: String,
-      maxlength: 30,
+      minlength: 8,
+      maxlength: 120,
       default: null,
     },
     owner: {
@@ -36,7 +37,7 @@ const petSchema = new Schema(
 
 const petJoiSchema = Joi.object({
     name: Joi.string().required(),
-    birth: Joi.string().required(),
+    birthday: Joi.string().required(),
     breed: Joi.string().required(),
     photo: Joi.string(),
     comments: Joi.string()
