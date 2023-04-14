@@ -1,7 +1,7 @@
 const User = require("./user");
 const Service = require("./service");
 const News = require("./new");
-const Notice = require("./notice");
+const { Notice, noticeJoiSchema } = require('./notice');
 const { Pet } = require("./pet");
 
 module.exports = {
@@ -9,5 +9,6 @@ module.exports = {
   Service,
   News,
   Notice,
+  noticeJoiSchema,
   Pet,
 };
