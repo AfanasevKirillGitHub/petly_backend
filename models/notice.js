@@ -9,7 +9,6 @@ const noticeSchema = new Schema(
       type: String,
       enum: ["sell", "lost-found", "for-free"],
       required: [true, "Category is required"],
-      default: "my-ads",
       description: "Notice categories",
     },
     title: {
@@ -18,30 +17,30 @@ const noticeSchema = new Schema(
         min: 2,
         max: 48,
         match: /[a-zA-Z]/,
-        required: [true, "Title is required"],
-        description: "Notice title in en",
+        required: [true, 'Title is required'],
+        description: 'Notice title in en',
       },
       ua: {
         type: String,
         min: 2,
         max: 48,
         match: /[а-яА-Я]/,
-        required: [true, "Title is required"],
-        description: "Notice title in ua",
+        required: [true, 'Title is required'],
+        description: 'Notice title in ua',
       },
     },
     name: {
       type: String,
-      required: [true, "Name is required"],
+      required: [true, 'Name is required'],
       min: 2,
       max: 16,
       match: /[a-zA-Zа-яА-Я]/,
-      description: "Notice name in en",
+      description: 'Notice name in en',
     },
     birthdate: {
       type: Date,
-      required: [true, "Birth date is required"],
-      description: "Notice birth date",
+      required: [true, 'Birth date is required'],
+      description: 'Notice birth date',
     },
     breed: {
       en: {
@@ -49,22 +48,22 @@ const noticeSchema = new Schema(
         min: 2,
         max: 24,
         match: /[a-zA-Z]/,
-        required: [true, "Breed is required"],
-        description: "Notice breed in en",
+        required: [true, 'Breed is required'],
+        description: 'Notice breed in en',
       },
       ua: {
         type: String,
         min: 2,
         max: 24,
         match: /[а-яА-Я]/,
-        required: [true, "Breed is required"],
-        description: "Notice breed in ua",
+        required: [true, 'Breed is required'],
+        description: 'Notice breed in ua',
       },
     },
     sex: {
       type: String,
-      enum: ["male", "female"],
-      required: [true, "Sex is required"],
+      enum: ['male', 'female'],
+      required: [true, 'Sex is required'],
     },
     location: {
       type: Object,
@@ -74,14 +73,14 @@ const noticeSchema = new Schema(
           min: 2,
           max: 36,
           match: /[a-zA-Z]/,
-          description: "Notice city in en",
+          description: 'Notice city in en',
         },
         ua: {
           type: String,
           min: 2,
           max: 36,
           match: /[а-яА-Я]/,
-          description: "Notice city in ua",
+          description: 'Notice city in ua',
         },
       },
       region: {
@@ -90,14 +89,14 @@ const noticeSchema = new Schema(
           min: 2,
           max: 48,
           match: /[a-zA-Z]/,
-          description: "Notice region in en",
+          description: 'Notice region in en',
         },
         ua: {
           type: String,
           min: 2,
           max: 48,
           match: /[а-яА-Я]/,
-          description: "Notice region in ua",
+          description: 'Notice region in ua',
         },
       },
     },
@@ -106,34 +105,34 @@ const noticeSchema = new Schema(
         type: String,
         min: 8,
         max: 120,
-        description: "Notice comments in en",
+        description: 'Notice comments in en',
       },
       ua: {
         type: String,
         min: 8,
         max: 120,
-        description: "Notice comments in ua",
+        description: 'Notice comments in ua',
       },
     },
     price: {
       type: Number,
       default: 0,
-      description: "Notice price",
+      description: 'Notice price',
     },
-    favorite: {
-      type: Boolean,
-      default: false,
+    favorite: [],
+    avatarURL: {
+      type: String,
     },
     owner: {
       type: Schema.Types.ObjectId,
-      ref: "user",
+      ref: 'user',
     },
   },
   { versionKey: false, timestamps: true }
 );
 
 const noticeJoiSchema = Joi.object({
-  category: Joi.string().valid("sell", "lost-found", "for-free").required(),
+  category: Joi.string().valid('sell', 'lost-found', 'for-free').required(),
   title: Joi.object({
     en: Joi.string()
       .min(2)
@@ -164,7 +163,7 @@ const noticeJoiSchema = Joi.object({
       .pattern(/[а-яА-Я]/)
       .required(),
   }),
-  sex: Joi.string().valid("male", "female").required(),
+  sex: Joi.string().valid('male', 'female').required(),
   location: Joi.object({
     city: Joi.object({
       en: Joi.string()
@@ -204,7 +203,8 @@ const noticeJoiSchema = Joi.object({
       .required(),
   }),
   price: Joi.number().default(0),
-  favorite: Joi.boolean().default(false),
+  favorite: Joi.array().items(Joi.string()).default(false),
+  avatarURL: Joi.string(),
 });
 
 noticeSchema.pre("save", async function () {
