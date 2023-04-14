@@ -1,8 +1,12 @@
 const { Notice } = require("../../models");
 const { BadRequest } = require("http-errors");
 
-const getAllNotices = async (req, res) => {
-  const category = req.params;
+const getNoticesByCategory = async (req, res, next) => {
+  const { category } = req.params;
+
+  if (category === "favorite" || category === "own") {
+    return next();
+  }
 
   const { lang = "ua", page = 1, limit = 12 } = req.query;
 
@@ -23,7 +27,6 @@ const getAllNotices = async (req, res) => {
   }
 
   const skip = (page - 1) * limit;
-
   const notices = await Notice.find(
     category,
     {
@@ -47,4 +50,4 @@ const getAllNotices = async (req, res) => {
     .json({ message: "Successfully", notices, total: notices.length });
 };
 
-module.exports = getAllNotices;
+module.exports = getNoticesByCategory;
