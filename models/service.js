@@ -3,7 +3,7 @@ const { validationError } = require("../helpers");
 
 const serviceSchema = new Schema(
   {
-    name: {
+    title: {
       en: {
         type: String,
         required: [true, "Name is required"],
@@ -14,23 +14,38 @@ const serviceSchema = new Schema(
         required: [true, "Name is required"],
         description: "Name of service",
       },
-    },
-    time: {
-      type: Date,
-      required: [true, "Time is required"],
-      description: "Scheduel",
     },
     address: {
       en: {
         type: String,
-        required: [true, "Address is required"],
+        default: null,
         description: "Address of service",
       },
       ua: {
         type: String,
-        required: [true, "Address is required"],
+        default: null,
         description: "Address of service",
       },
+    },
+    addressUrl: {
+      type: String,
+      default: null,
+    },
+    imageUrl: {
+      type: String,
+      default: null,
+    },
+    workDays: [
+      {
+        isOpen: { type: Boolean },
+        from: { type: String },
+        to: { type: String },
+      },
+    ],
+    url: {
+      type: String,
+      required: [true, "Address is required"],
+      description: "UrlAddress of service",
     },
     email: {
       type: String,
@@ -40,7 +55,7 @@ const serviceSchema = new Schema(
     },
     phone: {
       type: String,
-      required: [true, "Phone is required"],
+      default: null,
       description: "Phone of service",
     },
   },

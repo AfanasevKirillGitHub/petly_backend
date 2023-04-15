@@ -4,6 +4,6 @@ const router = express.Router();
 const { ctrlWrapper } = require("../../middlewares");
 const { services: ctrl } = require("../../controllers");
 
-router.post("/", ctrlWrapper(ctrl.getAllServices));
+router.get("/", ctrlWrapper(ctrl.getAllServices));
 
 module.exports = router;
