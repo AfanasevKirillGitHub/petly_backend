@@ -16,14 +16,14 @@ router.post(
   ctrlWrapper(ctrl.register)
 );
 
-route.get(
+router.get(
   "/google",
   passport.authenticate("google", {
     scope: ["email", "profile"],
   })
 );
 
-route.get(
+router.get(
   "/google/callback",
   passport.authenticate("google", {
     session: false,
