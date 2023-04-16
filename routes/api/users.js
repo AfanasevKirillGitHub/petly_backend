@@ -6,7 +6,7 @@ const {
   auth,
   validation,
   ctrlWrapper,
-  passport,
+  // passport,
 } = require("../../middlewares");
 const { users: ctrl } = require("../../controllers");
 
