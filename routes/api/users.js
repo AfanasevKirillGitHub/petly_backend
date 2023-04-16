@@ -16,20 +16,20 @@ router.post(
   ctrlWrapper(ctrl.register)
 );
 
-router.get(
-  "/google",
-  passport.authenticate("google", {
-    scope: ["email", "profile"],
-  })
-);
+// router.get(
+//   "/google",
+//   passport.authenticate("google", {
+//     scope: ["email", "profile"],
+//   })
+// );
 
-router.get(
-  "/google/callback",
-  passport.authenticate("google", {
-    session: false,
-  }),
-  ctrlWrapper(ctrl.googleAuth)
-);
+// router.get(
+//   "/google/callback",
+//   passport.authenticate("google", {
+//     session: false,
+//   }),
+//   ctrlWrapper(ctrl.googleAuth)
+// );
 
 router.post("/login", validation(schemas.loginSchema), ctrlWrapper(ctrl.login));
 
