@@ -6,6 +6,7 @@ const {
   validation,
   ctrlWrapper,
   isValidId,
+  isValidNoticeId,
   upload,
   translate,
 } = require("../../middlewares");
@@ -34,5 +35,8 @@ router.use(auth);
 
 router.get("/own", ctrlWrapper(ctrl.getOwnNotices));
 router.delete("/own/:noticeId", ctrlWrapper(ctrl.deleteOwnNoticeById));
+
+router.get('/favorite', ctrlWrapper(ctrl.getFavoriteNotices)); // отримує всі оголошення з обраних
+router.delete('/favorite/:noticeId', isValidNoticeId, ctrlWrapper(ctrl.removeFavoriteNoticeById)); // видаляє оголошення з обраних
 
 module.exports = router;
