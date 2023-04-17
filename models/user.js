@@ -68,11 +68,16 @@ const loginSchema = Joi.object({
   password: Joi.string().min(6).required(),
 });
 
+const loginWhithTokenSchema = Joi.object({
+  token: Joi.string().required(),
+});
+
 const User = model("user", userSchema);
 
 const schemas = {
   registerSchema,
   loginSchema,
+  loginWhithTokenSchema,
 };
 
 module.exports = { schemas, User };
