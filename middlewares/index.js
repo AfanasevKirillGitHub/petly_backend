@@ -6,10 +6,10 @@ const isValidNoticeId = require("./isValidNoticeId");
 const isValidId = require("./isValidId");
 const upload = require("./upload");
 const translate = require("./translate");
-// const passport = require("./passport");
+const passport = require("./passport");
 
 module.exports = {
-  // passport,
+  passport,
   auth,
   validation,
   ctrlWrapper,
