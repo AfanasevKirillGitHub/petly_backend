@@ -33,6 +33,12 @@ router.post(
 
 router.post("/login", validation(schemas.loginSchema), ctrlWrapper(ctrl.login));
 
+router.post(
+  "/login/with-token",
+  validation(schemas.loginWhithTokenSchema),
+  ctrlWrapper(ctrl.loginWithToken)
+);
+
 router.post("/logout", auth, ctrlWrapper(ctrl.logout));
 
 router.patch("/update", auth, ctrlWrapper(ctrl.update));

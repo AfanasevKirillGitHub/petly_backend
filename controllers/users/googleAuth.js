@@ -8,7 +8,9 @@ const googleAuth = async (req, res) => {
   const token = createToken(payload);
   await User.findByIdAndUpdate(id, { token });
 
-  res.redirect(`http://localhost:300?token=${token}`);
+  res.redirect(
+    `https://afanasevkirillgithub.github.io/petly_frontend/?token=${token}`
+  );
 };
 
 module.exports = googleAuth;
