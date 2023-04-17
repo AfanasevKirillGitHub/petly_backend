@@ -8,7 +8,7 @@ const removeFavoriteNoticeById = async (req, res) => {
         .findOne({ _id: noticeId, favorite: userId });
     
     if (!removedNotice) {
-        throw HttpError(404, "Notice is not found in favorites");
+        throw HttpError(404, "Notice is not found in favorite");
     }
     
     const { favorite } = removedNotice;
@@ -22,7 +22,7 @@ const removeFavoriteNoticeById = async (req, res) => {
         );
 
     res.status(200).json({
-        message: "Notice was removed from favorites",
+        message: "Notice was removed from favorite",
     })
 };
 
