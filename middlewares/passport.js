@@ -33,6 +33,8 @@ const googleCallback = async (
       email,
       name: displayName,
       password: hashPassword,
+      phone: "",
+      city: "",
     });
     done(null, newUser);
   } catch (error) {
