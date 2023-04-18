@@ -5,6 +5,7 @@ const update = require("./update");
 const refreshToken = require("./refreshToken");
 const getUserInfo = require("./getUserInfo");
 const googleAuth = require("./googleAuth");
+const loginWithToken = require("./loginWithToken");
 
 module.exports = {
   googleAuth,
@@ -14,4 +15,5 @@ module.exports = {
   update,
   refreshToken,
   getUserInfo,
+  loginWithToken,
 };
