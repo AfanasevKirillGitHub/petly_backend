@@ -23,7 +23,6 @@ const googleCallback = async (
 ) => {
   try {
     const { email, displayName } = profile;
-
     const user = await User.findOne({ email });
     if (user) {
       done(null, user); //req.user=user
@@ -33,8 +32,6 @@ const googleCallback = async (
       email,
       name: displayName,
       password: hashPassword,
-      phone: "",
-      city: "",
     });
     done(null, newUser);
   } catch (error) {

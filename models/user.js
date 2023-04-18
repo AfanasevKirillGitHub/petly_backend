@@ -21,11 +21,9 @@ const userSchema = Schema(
     },
     city: {
       type: String,
-      required: [true, "City is required"],
     },
     phone: {
       type: String,
-      required: [true, "Phone is required"],
     },
     birthday: {
       type: Date,

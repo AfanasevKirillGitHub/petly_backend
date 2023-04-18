@@ -1,7 +1,5 @@
 const { User } = require("../../models/user");
 const { Unauthorized } = require("http-errors");
-const bcrypt = require("bcryptjs");
-const { createToken } = require("../../helpers");
 
 const loginWithToken = async (req, res) => {
   const { token: userToken } = req.body;
@@ -20,7 +18,7 @@ const loginWithToken = async (req, res) => {
       birthday: user.birthday,
       phone: user.phone,
       avatarURL: user.avatarURL,
-      token,
+      token: userToken,
     },
   });
 };
