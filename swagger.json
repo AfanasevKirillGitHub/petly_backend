@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "https://your-pets.onrender.com/",
+      "url": "https://your-pets.onrender.com/api",
       "description": "Website for finding and selling pets"
     }
   ],
@@ -29,7 +29,37 @@
                       "default": "Successfully"
                     },
                     "news": {
-                      "$ref": "#/components/schemas/News"
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "$ref": "#/components/schemas/News/properties/_id"
+                        },
+                        "title": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "$ref": "#/components/schemas/News/properties/title/properties/en"
+                            }
+                          }
+                        },
+                        "description": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "$ref": "#/components/schemas/News/properties/description/properties/en"
+                            }
+                          }
+                        },
+                        "date": {
+                          "$ref": "#/components/schemas/News/properties/date"
+                        },
+                        "img": {
+                          "$ref": "#/components/schemas/News/properties/img"
+                        },
+                        "link": {
+                          "$ref": "#/components/schemas/News/properties/link"
+                        }
+                      }
                     },
                     "total": {
                       "type": "integer"
@@ -67,6 +97,107 @@
         }
       }
     },
+    "/users/current": {
+      "get": {
+        "summary": "Get info about current user",
+        "tags": ["User"],
+        "operationId": "getUserInfo",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "The token issued to the current user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "default": "success"
+                    },
+                    "dataUser": {
+                      "type": "object",
+                      "properties": {
+                        "avatarURL": {
+                          "$ref": "#/components/schemas/User/properties/avatarURL"
+                        },
+                        "name": {
+                          "$ref": "#/components/schemas/User/properties/name"
+                        },
+                        "email": {
+                          "$ref": "#/components/schemas/User/properties/email"
+                        },
+                        "birthday": {
+                          "$ref": "#/components/schemas/User/properties/birthday"
+                        },
+                        "phone": {
+                          "$ref": "#/components/schemas/User/properties/phone"
+                        },
+                        "city": {
+                          "$ref": "#/components/schemas/User/properties/city"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Some error message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Email or password is wrong"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ServerError" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/register": {
       "post": {
         "summary": "Register new user",
@@ -78,7 +209,24 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegistrationRequest"
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "$ref": "#/components/schemas/User/properties/name"
+                  },
+                  "email": {
+                    "$ref": "#/components/schemas/User/properties/email"
+                  },
+                  "password": {
+                    "$ref": "#/components/schemas/User/properties/password"
+                  },
+                  "city": {
+                    "$ref": "#/components/schemas/User/properties/city"
+                  },
+                  "phone": {
+                    "$ref": "#/components/schemas/User/properties/phone"
+                  }
+                }
               }
             }
           }
@@ -96,7 +244,27 @@
                       "default": "Registration completed successfully"
                     },
                     "dataUser": {
-                      "$ref": "#/components/schemas/RegistrationResponse"
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "$ref": "#/components/schemas/User/properties/name"
+                        },
+                        "email": {
+                          "$ref": "#/components/schemas/User/properties/email"
+                        },
+                        "birthday": {
+                          "$ref": "#/components/schemas/User/properties/birthday"
+                        },
+                        "phone": {
+                          "$ref": "#/components/schemas/User/properties/phone"
+                        },
+                        "avatarURL": {
+                          "$ref": "#/components/schemas/User/properties/avatarURL"
+                        },
+                        "token": {
+                          "$ref": "#/components/schemas/User/properties/token"
+                        }
+                      }
                     }
                   }
                 }
@@ -159,7 +327,15 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "$ref": "#/components/schemas/User/properties/email"
+                  },
+                  "password": {
+                    "$ref": "#/components/schemas/User/properties/password"
+                  }
+                }
               }
             }
           }
@@ -177,7 +353,27 @@
                       "default": "Login completed successfully"
                     },
                     "dataUser": {
-                      "$ref": "#/components/schemas/LoginResponse"
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "$ref": "#/components/schemas/User/properties/name"
+                        },
+                        "email": {
+                          "$ref": "#/components/schemas/User/properties/email"
+                        },
+                        "birthday": {
+                          "$ref": "#/components/schemas/User/properties/birthday"
+                        },
+                        "phone": {
+                          "$ref": "#/components/schemas/User/properties/phone"
+                        },
+                        "avatarURL": {
+                          "$ref": "#/components/schemas/User/properties/avatarURL"
+                        },
+                        "token": {
+                          "$ref": "#/components/schemas/User/properties/token"
+                        }
+                      }
                     }
                   }
                 }
@@ -247,7 +443,7 @@
         ],
         "responses": {
           "204": {
-            "description": "No content",
+            "description": "No Content",
             "content": {
               "application/json": {
                 "schema": {
@@ -290,6 +486,88 @@
           },
           "500": {
             "description": "Internal Server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ServerError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/jwtrefresh": {
+      "post": {
+        "summary": "Refresh user token",
+        "tags": ["User"],
+        "operationId": "refreshToken",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "The token issued to the current user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Token refresh completed successfully"
+                    },
+                    "token": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzA0Yzg0YmQxNjgwMzBkOTIyMDQ3YyIsImlhdCI6MTY4MDk0NTI5NSwiZXhwIjoxNjgxMDMxNjk1fQ.mqGKd15X-SXUafsR9tFw2BucuG9bmINW_rac35ETj4s"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Some error message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Email or password is wrong"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/ServerError" }
@@ -386,6 +664,1316 @@
           },
           "500": {
             "description": "Internal Server error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ServerError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices": {
+      "get": {
+        "summary": "Get all notices method",
+        "tags": ["Notice"],
+        "operationId": "getAllNotices",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Successfully"
+                    },
+                    "notices": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "$ref": "#/components/schemas/Notice/properties/_id"
+                        },
+                        "category": {
+                          "$ref": "#/components/schemas/Notice/properties/category"
+                        },
+                        "title": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "$ref": "#/components/schemas/Notice/properties/title/properties/en"
+                            }
+                          }
+                        },
+                        "name": {
+                          "$ref": "#/components/schemas/Notice/properties/name"
+                        },
+                        "birthdate": {
+                          "$ref": "#/components/schemas/Notice/properties/birthdate"
+                        },
+                        "breed": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "$ref": "#/components/schemas/Notice/properties/breed/properties/en"
+                            }
+                          }
+                        },
+                        "sex": {
+                          "$ref": "#/components/schemas/Notice/properties/sex"
+                        },
+                        "location": {
+                          "type": "object",
+                          "properties": {
+                            "city": {
+                              "type": "object",
+                              "properties": {
+                                "en": {
+                                  "$ref": "#/components/schemas/Notice/properties/location/properties/city/properties/en"
+                                }
+                              }
+                            },
+                            "region": {
+                              "type": "object",
+                              "properties": {
+                                "en": {
+                                  "$ref": "#/components/schemas/Notice/properties/location/properties/region/properties/en"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "comments": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "$ref": "#/components/schemas/Notice/properties/comments/properties/en"
+                            }
+                          }
+                        },
+                        "price": {
+                          "type": "number",
+                          "default": 0,
+                          "description": "Pet's price"
+                        },
+                        "favorite": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "Notice status"
+                        },
+                        "avatarURL": {
+                          "type": "string",
+                          "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
+                          "description": "Notice image"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "642fdf8745bc73b2aecbae7b",
+                          "description": "Owner's unique identifier."
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-04-12T07:28:49.493Z",
+                          "description": "Backend-generated date and time of notice creating"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-04-12T07:28:49.493Z",
+                          "description": "Backend-generated date and time of notice updating"
+                        }
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Choose another type of language. Available options: ua, en."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ServerError" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new notice",
+        "tags": ["Notice"],
+        "operationId": "addNotice",
+        "requestBody": {
+          "description": "The new notice object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "category": {
+                    "$ref": "#/components/schemas/Notice/properties/category"
+                  },
+                  "title": {
+                    "$ref": "#/components/schemas/Notice/properties/title/properties/en"
+                  },
+                  "name": {
+                    "$ref": "#/components/schemas/Notice/properties/name"
+                  },
+                  "birthdate": {
+                    "$ref": "#/components/schemas/Notice/properties/birthdate"
+                  },
+                  "breed": {
+                    "$ref": "#/components/schemas/Notice/properties/breed/properties/en"
+                  },
+                  "sex": {
+                    "$ref": "#/components/schemas/Notice/properties/sex"
+                  },
+                  "location": {
+                    "type": "string",
+                    "example": "Vorzel, Kyiv"
+                  },
+                  "comments": {
+                    "$ref": "#/components/schemas/Notice/properties/comments/properties/en"
+                  },
+                  "price": {
+                    "$ref": "#/components/schemas/Notice/properties/price"
+                  },
+                  "avatarURL": {
+                    "type": "string",
+                    "description": "Select notice image"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "The token issued to the current user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "category": {
+                      "$ref": "#/components/schemas/Notice/properties/category"
+                    },
+                    "title": {
+                      "$ref": "#/components/schemas/Notice/properties/title/properties/en"
+                    },
+                    "name": {
+                      "$ref": "#/components/schemas/Notice/properties/name"
+                    },
+                    "birthdate": {
+                      "$ref": "#/components/schemas/Notice/properties/birthdate"
+                    },
+                    "breed": {
+                      "$ref": "#/components/schemas/Notice/properties/breed/properties/en"
+                    },
+                    "sex": {
+                      "$ref": "#/components/schemas/Notice/properties/sex"
+                    },
+                    "location": {
+                      "type": "string",
+                      "example": "Vorzel, Kyiv"
+                    },
+                    "comments": {
+                      "$ref": "#/components/schemas/Notice/properties/comments/properties/en"
+                    },
+                    "price": {
+                      "$ref": "#/components/schemas/Notice/properties/price"
+                    },
+                    "avatarURL": {
+                      "type": "string",
+                      "description": "Notice image"
+                    },
+                    "idCloudAvatar": {
+                      "type": "string",
+                      "description": "Notice image"
+                    },
+                    "owner": {
+                      "type": "string",
+                      "description": "Notice owner's ID",
+                      "example": "6438255d9ef48a24e5d81693"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Choose another type of language. Available options: ua, en."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/card/{noticeId}": {
+      "get": {
+        "summary": "Get notice by ID method",
+        "tags": ["Notice"],
+        "operationId": "getNoticeById",
+        "parameters": [
+          {
+            "name": "noticeId",
+            "in": "path",
+            "required": true,
+            "description": "Notice ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "642fdf8745bc73b2aecbae7b"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "notice": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "$ref": "#/components/schemas/Notice/properties/_id"
+                        },
+                        "category": {
+                          "$ref": "#/components/schemas/Notice/properties/category"
+                        },
+                        "title": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "$ref": "#/components/schemas/Notice/properties/title/properties/en"
+                            }
+                          }
+                        },
+                        "name": {
+                          "$ref": "#/components/schemas/Notice/properties/name"
+                        },
+                        "birthdate": {
+                          "$ref": "#/components/schemas/Notice/properties/birthdate"
+                        },
+                        "breed": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "$ref": "#/components/schemas/Notice/properties/breed/properties/en"
+                            }
+                          }
+                        },
+                        "sex": {
+                          "$ref": "#/components/schemas/Notice/properties/sex"
+                        },
+                        "location": {
+                          "type": "object",
+                          "properties": {
+                            "city": {
+                              "type": "object",
+                              "properties": {
+                                "en": {
+                                  "$ref": "#/components/schemas/Notice/properties/location/properties/city/properties/en"
+                                }
+                              }
+                            },
+                            "region": {
+                              "type": "object",
+                              "properties": {
+                                "en": {
+                                  "$ref": "#/components/schemas/Notice/properties/location/properties/region/properties/en"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "comments": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "$ref": "#/components/schemas/Notice/properties/comments/properties/en"
+                            }
+                          }
+                        },
+                        "price": {
+                          "type": "number",
+                          "default": 0,
+                          "description": "Pet's price"
+                        },
+                        "favorite": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "Notice status"
+                        },
+                        "avatarURL": {
+                          "type": "string",
+                          "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
+                          "description": "Notice image"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "642fdf8745bc73b2aecbae7b",
+                          "description": "Owner's unique identifier."
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-04-12T07:28:49.493Z",
+                          "description": "Backend-generated date and time of notice creating"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-04-12T07:28:49.493Z",
+                          "description": "Backend-generated date and time of notice updating"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Invalid id"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ServerError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/{category}": {
+      "get": {
+        "summary": "Get notices by category method",
+        "tags": ["Notice"],
+        "operationId": "getNoticesByCategory",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "path",
+            "required": true,
+            "description": "Category name",
+            "schema": {
+              "type": "string"
+            },
+            "example": "sell"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Successfully"
+                    },
+                    "notices": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "$ref": "#/components/schemas/Notice/properties/_id"
+                        },
+                        "category": {
+                          "$ref": "#/components/schemas/Notice/properties/category"
+                        },
+                        "title": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "$ref": "#/components/schemas/Notice/properties/title/properties/en"
+                            }
+                          }
+                        },
+                        "name": {
+                          "$ref": "#/components/schemas/Notice/properties/name"
+                        },
+                        "birthdate": {
+                          "$ref": "#/components/schemas/Notice/properties/birthdate"
+                        },
+                        "breed": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "$ref": "#/components/schemas/Notice/properties/breed/properties/en"
+                            }
+                          }
+                        },
+                        "sex": {
+                          "$ref": "#/components/schemas/Notice/properties/sex"
+                        },
+                        "location": {
+                          "type": "object",
+                          "properties": {
+                            "city": {
+                              "type": "object",
+                              "properties": {
+                                "en": {
+                                  "$ref": "#/components/schemas/Notice/properties/location/properties/city/properties/en"
+                                }
+                              }
+                            },
+                            "region": {
+                              "type": "object",
+                              "properties": {
+                                "en": {
+                                  "$ref": "#/components/schemas/Notice/properties/location/properties/region/properties/en"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "comments": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "$ref": "#/components/schemas/Notice/properties/comments/properties/en"
+                            }
+                          }
+                        },
+                        "price": {
+                          "type": "number",
+                          "default": 0,
+                          "description": "Pet's price"
+                        },
+                        "favorite": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "Notice status"
+                        },
+                        "avatarURL": {
+                          "type": "string",
+                          "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
+                          "description": "Notice image"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "642fdf8745bc73b2aecbae7b",
+                          "description": "Owner's unique identifier."
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-04-12T07:28:49.493Z",
+                          "description": "Backend-generated date and time of notice creating"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-04-12T07:28:49.493Z",
+                          "description": "Backend-generated date and time of notice updating"
+                        }
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Choose another type of language. Available options: ua, en."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ServerError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/own": {
+      "get": {
+        "summary": "Get notices of current user",
+        "tags": ["Notice"],
+        "operationId": "getOwnNotices",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "The token issued to the current user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Successfully"
+                    },
+                    "notices": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "$ref": "#/components/schemas/Notice/properties/_id"
+                        },
+                        "category": {
+                          "$ref": "#/components/schemas/Notice/properties/category"
+                        },
+                        "title": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "$ref": "#/components/schemas/Notice/properties/title/properties/en"
+                            }
+                          }
+                        },
+                        "name": {
+                          "$ref": "#/components/schemas/Notice/properties/name"
+                        },
+                        "birthdate": {
+                          "$ref": "#/components/schemas/Notice/properties/birthdate"
+                        },
+                        "breed": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "$ref": "#/components/schemas/Notice/properties/breed/properties/en"
+                            }
+                          }
+                        },
+                        "sex": {
+                          "$ref": "#/components/schemas/Notice/properties/sex"
+                        },
+                        "location": {
+                          "type": "object",
+                          "properties": {
+                            "city": {
+                              "type": "object",
+                              "properties": {
+                                "en": {
+                                  "$ref": "#/components/schemas/Notice/properties/location/properties/city/properties/en"
+                                }
+                              }
+                            },
+                            "region": {
+                              "type": "object",
+                              "properties": {
+                                "en": {
+                                  "$ref": "#/components/schemas/Notice/properties/location/properties/region/properties/en"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "comments": {
+                          "type": "object",
+                          "properties": {
+                            "en": {
+                              "$ref": "#/components/schemas/Notice/properties/comments/properties/en"
+                            }
+                          }
+                        },
+                        "price": {
+                          "type": "number",
+                          "default": 0,
+                          "description": "Pet's price"
+                        },
+                        "favorite": {
+                          "type": "boolean",
+                          "default": false,
+                          "description": "Notice status"
+                        },
+                        "avatarURL": {
+                          "type": "string",
+                          "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
+                          "description": "Notice image"
+                        },
+                        "owner": {
+                          "type": "string",
+                          "example": "642fdf8745bc73b2aecbae7b",
+                          "description": "Owner's unique identifier."
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-04-12T07:28:49.493Z",
+                          "description": "Backend-generated date and time of notice creating"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-04-12T07:28:49.493Z",
+                          "description": "Backend-generated date and time of notice updating"
+                        }
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ServerError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/favorites/{noticeId}": {
+      "post": {
+        "summary": "Add the notice to favorites",
+        "tags": ["Notice"],
+        "operationId": "addNoticeFavorite",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "The token issued to the current user",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "noticeId",
+            "in": "path",
+            "required": true,
+            "description": "Notice ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "6438255d9ef48a24e5d81693"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "userId": {
+                      "type": "string",
+                      "example": "6438255d9er48a24e5d81603"
+                    },
+                    "noticeId": {
+                      "type": "string",
+                      "example": "6438255d9er48a24e5d81603"
+                    },
+                    "message": {
+                      "type": "string",
+                      "default": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Invalid id"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Notice already added to favorites"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notices/own/{noticeId}": {
+      "delete": {
+        "summary": "Delete notice by ID",
+        "tags": ["Notice"],
+        "operationId": "deleteOwnNoticeById",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "The token issued to the current user",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "noticeId",
+            "in": "path",
+            "required": true,
+            "description": "Notice ID",
+            "schema": {
+              "type": "string"
+            },
+            "example": "6438255d9ef48a24e5d81693"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Deleted successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NotFoundError" }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ServerError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pets": {
+      "get": {
+        "summary": "Get current user's pets",
+        "tags": ["Pet"],
+        "operationId": "getAllUserPets",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "The token issued to the current user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ServerError" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add pet",
+        "tags": ["Pet"],
+        "operationId": "addPet",
+        "requestBody": {
+          "description": "New pet's data object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "$ref": "#/components/schemas/Pet/properties/name"
+                  },
+                  "birth": {
+                    "$ref": "#/components/schemas/Pet/properties/birth"
+                  },
+                  "breed": {
+                    "$ref": "#/components/schemas/Pet/properties/breed"
+                  },
+                  "photo": {
+                    "type": "string"
+                  },
+                  "comments": {
+                    "$ref": "#/components/schemas/Pet/properties/comments"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "The token issued to the current user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Some error message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ServerError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pets/{petsId}": {
+      "delete": {
+        "summary": "Delete user's pet",
+        "tags": ["Pet"],
+        "operationId": "removePet",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "The token issued to the current user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Pet deleted"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Some error message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Not authorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "{petsId} is not valid"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ServerError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services": {
+      "get": {
+        "summary": "Add service",
+        "tags": ["Service"],
+        "operationId": "getAllServices",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Successfully"
+                    },
+                    "services": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "$ref": "#/components/schemas/Service/properties/name/properties/en"
+                        },
+                        "time": {
+                          "$ref": "#/components/schemas/Service/properties/time/properties/en"
+                        },
+                        "address": {
+                          "$ref": "#/components/schemas/Service/properties/address/properties/en"
+                        },
+                        "email": {
+                          "$ref": "#/components/schemas/Service/properties/email"
+                        },
+                        "phone": {
+                          "$ref": "#/components/schemas/Service/properties/phone"
+                        },
+                        "createdAt": {
+                          "$ref": "#/components/schemas/Service/properties/createdAt"
+                        },
+                        "updatedAt": {
+                          "$ref": "#/components/schemas/Service/properties/updatedAt"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["message"],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "default": "Some error message"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/ServerError" }
@@ -492,7 +2080,7 @@
           "avatarURL": {
             "type": "string",
             "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
-            "description": "Link to user's avatar"
+            "description": "User's avatar"
           },
           "token": {
             "type": "string",
@@ -686,21 +2274,20 @@
           },
           "title": {
             "type": "object",
-            "required": ["en", "ua"],
             "properties": {
               "en": {
                 "type": "string",
                 "minLength": 2,
                 "maxLength": 48,
-                "pattern": "a-zA-Z",
-                "description": "Notice title in English"
+                "description": "Notice title in English",
+                "example": "Cat"
               },
               "ua": {
                 "type": "string",
                 "minLength": 2,
                 "maxLength": 48,
-                "pattern": "а-яА-Я",
-                "description": "Notice title in Ukrainian"
+                "description": "Notice title in Ukrainian",
+                "example": "Кіт"
               }
             }
           },
@@ -708,8 +2295,8 @@
             "type": "string",
             "minLength": 2,
             "maxLength": 16,
-            "pattern": "a-zA-Zа-яА-Я",
-            "description": "Pet's name"
+            "description": "Pet's name",
+            "example": "Barsik"
           },
           "birthdate": {
             "type": "string",
@@ -719,21 +2306,20 @@
           },
           "breed": {
             "type": "object",
-            "required": ["en", "ua"],
             "properties": {
               "en": {
                 "type": "string",
                 "minLength": 2,
                 "maxLength": 24,
-                "pattern": "a-zA-Z",
-                "description": "Pet's breed in English"
+                "description": "Pet's breed in English",
+                "example": "Persian cat"
               },
               "ua": {
                 "type": "string",
                 "minLength": 2,
                 "maxLength": 24,
-                "pattern": "а-яА-Я",
-                "description": "Pet's breed in Ukrainian"
+                "description": "Pet's breed in Ukrainian",
+                "example": "Персидський кіт"
               }
             }
           },
@@ -744,45 +2330,42 @@
           },
           "location": {
             "type": "object",
-            "required": ["city", "region"],
             "properties": {
               "city": {
                 "type": "object",
-                "required": ["en", "ua"],
                 "properties": {
                   "en": {
                     "type": "string",
                     "minLength": 2,
                     "maxLength": 36,
-                    "pattern": "a-zA-Z",
-                    "description": "Pet's city in English"
+                    "description": "Pet's city in English",
+                    "example": "Vorzel"
                   },
                   "ua": {
                     "type": "string",
                     "minLength": 2,
                     "maxLength": 36,
-                    "pattern": "а-яА-Я",
-                    "description": "Pet's city in Ukrainian"
+                    "description": "Pet's city in Ukrainian",
+                    "example": "Ворзель"
                   }
                 }
               },
               "region": {
                 "type": "object",
-                "required": ["en", "ua"],
                 "properties": {
                   "en": {
                     "type": "string",
                     "minLength": 2,
                     "maxLength": 48,
-                    "pattern": "a-zA-Z",
-                    "description": "Pet's region in English"
+                    "description": "Pet's region in English",
+                    "example": "Kyiv"
                   },
                   "ua": {
                     "type": "string",
                     "minLength": 2,
                     "maxLength": 48,
-                    "pattern": "а-яА-Я",
-                    "description": "Pet's region in Ukrainian"
+                    "description": "Pet's region in Ukrainian",
+                    "example": "Київ"
                   }
                 }
               }
@@ -790,19 +2373,20 @@
           },
           "comments": {
             "type": "object",
-            "required": ["en", "ua"],
             "properties": {
               "en": {
                 "type": "string",
                 "minLength": 8,
                 "maxLength": 120,
-                "description": "Notice comments in English"
+                "description": "Notice comments in English",
+                "example": "Sell a good cat"
               },
               "ua": {
                 "type": "string",
                 "minLength": 8,
                 "maxLength": 120,
-                "description": "Notice comments in Ukrainian"
+                "description": "Notice comments in Ukrainian",
+                "example": "Продаю хорошого кота"
               }
             }
           },
@@ -815,6 +2399,11 @@
             "type": "boolean",
             "default": false,
             "description": "Notice status"
+          },
+          "avatarURL": {
+            "type": "string",
+            "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
+            "description": "Notice image"
           },
           "owner": {
             "type": "string",
@@ -888,123 +2477,6 @@
             "format": "date-time",
             "example": "2023-04-12T07:28:49.493Z",
             "description": "Backend-generated date and time of notice updating"
-          }
-        }
-      },
-      "RegistrationRequest": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Ivan Petrenko",
-            "description": "User's name"
-          },
-          "email": {
-            "type": "string",
-            "example": "ivan_petrenko@mail.com",
-            "description": "User's email address"
-          },
-          "password": {
-            "type": "string",
-            "example": "ivan123456petrenko",
-            "description": "User's password. At least 6 characters"
-          },
-          "city": {
-            "type": "string",
-            "example": "Odesa",
-            "description": "User's city"
-          },
-          "phone": {
-            "type": "string",
-            "example": "066-555-44-33",
-            "description": "User's phone number"
-          }
-        }
-      },
-      "RegistrationResponse": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Ivan Petrenko",
-            "description": "User's name"
-          },
-          "email": {
-            "type": "string",
-            "example": "ivan_petrenko@mail.com",
-            "description": "User's email address"
-          },
-          "birthday": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2023-04-12T07:28:49.493Z",
-            "description": "User's day of birth"
-          },
-          "phone": {
-            "type": "string",
-            "example": "066-555-44-33",
-            "description": "User's phone number"
-          },
-          "avatarURL": {
-            "type": "string",
-            "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
-            "description": "Link to user's avatar"
-          },
-          "token": {
-            "type": "string",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzA0Yzg0YmQxNjgwMzBkOTIyMDQ3YyIsImlhdCI6MTY4MDk0NTI5NSwiZXhwIjoxNjgxMDMxNjk1fQ.mqGKd15X-SXUafsR9tFw2BucuG9bmINW_rac35ETj4s",
-            "description": "User's personal token to access site resources. Created by backend after user's authorization"
-          }
-        }
-      },
-      "LoginRequest": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string",
-            "example": "ivan_petrenko@mail.com",
-            "description": "User's email address"
-          },
-          "password": {
-            "type": "string",
-            "example": "ivan123456petrenko",
-            "description": "User's password. At least 6 characters"
-          }
-        }
-      },
-      "LoginResponse": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "example": "Ivan Petrenko",
-            "description": "User's name"
-          },
-          "email": {
-            "type": "string",
-            "example": "ivan_petrenko@mail.com",
-            "description": "User's email address"
-          },
-          "birthday": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2023-04-12T07:28:49.493Z",
-            "description": "User's day of birth"
-          },
-          "phone": {
-            "type": "string",
-            "example": "066-555-44-33",
-            "description": "User's phone number"
-          },
-          "avatarURL": {
-            "type": "string",
-            "example": "https://s.gravatar.com/avatar/93e9084ab289b7f1f5e4ab6716a56c3b?s=100&r=x&d=retro",
-            "description": "Link to user's avatar"
-          },
-          "token": {
-            "type": "string",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MzA0Yzg0YmQxNjgwMzBkOTIyMDQ3YyIsImlhdCI6MTY4MDk0NTI5NSwiZXhwIjoxNjgxMDMxNjk1fQ.mqGKd15X-SXUafsR9tFw2BucuG9bmINW_rac35ETj4s",
-            "description": "User's personal token to access site resources. Created by backend after user's authorization"
           }
         }
       },
