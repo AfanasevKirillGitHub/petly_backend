@@ -97,7 +97,7 @@
         }
       }
     },
-    "/users/current": {
+    "/user/current": {
       "get": {
         "summary": "Get info about current user",
         "tags": ["User"],
@@ -198,7 +198,7 @@
         }
       }
     },
-    "/users/register": {
+    "/user/register": {
       "post": {
         "summary": "Register new user",
         "tags": ["User"],
@@ -316,7 +316,7 @@
         }
       }
     },
-    "/users/login": {
+    "/user/login": {
       "post": {
         "summary": "Login user",
         "tags": ["User"],
@@ -425,7 +425,7 @@
         }
       }
     },
-    "/users/logout": {
+    "/user/logout": {
       "post": {
         "summary": "Logout user",
         "tags": ["User"],
@@ -495,7 +495,7 @@
         }
       }
     },
-    "/users/jwtrefresh": {
+    "/user/jwtrefresh": {
       "post": {
         "summary": "Refresh user token",
         "tags": ["User"],
@@ -577,7 +577,7 @@
         }
       }
     },
-    "/users/update": {
+    "/user/update": {
       "patch": {
         "summary": "Update user data",
         "tags": ["User"],
