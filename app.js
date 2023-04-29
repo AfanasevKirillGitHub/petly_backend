@@ -5,7 +5,7 @@ const logger = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
 
-const usersRouter = require("./routes/api/users");
+const userRouter = require("./routes/api/user");
 const servicesRouter = require("./routes/api/services");
 const newsRouter = require("./routes/api/news");
 const noticesRouter = require("./routes/api/notices");
@@ -21,7 +21,7 @@ app.use(express.static("public"));
 
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use("/api/users", usersRouter);
+app.use("/api/user", userRouter);
 app.use("/api/services", servicesRouter);
 app.use("/api/news", newsRouter);
 app.use("/api/notices", noticesRouter);
