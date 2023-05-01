@@ -31,7 +31,7 @@ const getNoticeById = async (req, res) => {
     _id: 1,
     owner: 1,
     [`location.city.${lang}`]: 1,
-  }).populate("owner", "_id name email phone");
+  }).populate("owner", " email phone");
   console.log(fullNotice);
   if (!fullNotice) {
     throw HttpError(404, "Not found");
