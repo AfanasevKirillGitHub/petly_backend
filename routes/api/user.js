@@ -6,6 +6,7 @@ const {
   auth,
   validation,
   ctrlWrapper,
+  upload,
   passport,
 } = require("../../middlewares");
 const { users: ctrl } = require("../../controllers");
@@ -41,7 +42,12 @@ router.post(
 
 router.post("/logout", auth, ctrlWrapper(ctrl.logout));
 
-router.patch("/update", auth, ctrlWrapper(ctrl.update));
+router.patch(
+  "/update",
+  auth,
+  upload.single("avatar"),
+  ctrlWrapper(ctrl.update)
+);
 
 router.post("/jwtrefresh", auth, ctrlWrapper(ctrl.refreshToken));
 
