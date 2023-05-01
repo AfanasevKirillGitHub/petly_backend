@@ -33,13 +33,14 @@ router.post(
 ); // створює оголошення
 router.use(auth);
 
-router.get("/own", ctrlWrapper(ctrl.getOwnNotices));
-router.delete("/own/:noticeId", ctrlWrapper(ctrl.deleteOwnNoticeById));
+router.get("/own", auth, ctrlWrapper(ctrl.getOwnNotices));
+router.delete("/own/:noticeId", auth, ctrlWrapper(ctrl.deleteOwnNoticeById));
 
-router.get("/favorite", ctrlWrapper(ctrl.getFavoriteNotices)); // отримує всі оголошення з обраних
+router.get("/favorite", auth, ctrlWrapper(ctrl.getFavoriteNotices)); // отримує всі оголошення з обраних
 router.delete(
   "/favorite/:noticeId",
   isValidNoticeId,
+  auth,
   ctrlWrapper(ctrl.removeFavoriteNoticeById)
 ); // видаляє оголошення з обраних
 
