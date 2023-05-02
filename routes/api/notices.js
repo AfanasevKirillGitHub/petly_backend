@@ -27,10 +27,11 @@ router.post(
   "/",
   auth,
   upload.single("image"),
-  translate,
+  /*translate,*/
   validation(noticeJoiSchema),
   ctrlWrapper(ctrl.addNotice)
 ); // створює оголошення
+
 router.use(auth);
 
 router.get("/own", auth, ctrlWrapper(ctrl.getOwnNotices));
