@@ -22,7 +22,7 @@ const update = async (req, res) => {
     const { name, email, birthday, phone, city, avatarURL, token } =
       updatedUser;
 
-    res.status(200).json({
+    return res.status(200).json({
       message: "Update completed successfully",
       dataUser: {
         name,
