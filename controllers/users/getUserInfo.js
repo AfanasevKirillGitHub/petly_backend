@@ -10,7 +10,7 @@ const getUserInfo = async (req, res) => {
       birthday,
       phone,
       city,
-      id: user._id,
+      // id: user._id,
     },
   });
 };
