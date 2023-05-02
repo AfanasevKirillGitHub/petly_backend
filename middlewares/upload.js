@@ -9,7 +9,7 @@ const multerConfig = multer.diskStorage({
     cb(null, file.originalname);
   },
   limits: {
-    fileSize: 2048,
+    fileSize: 3145728,
   },
   fileFilter: (req, file, cb) => {
     if (file.mimetype.includes("image")) {

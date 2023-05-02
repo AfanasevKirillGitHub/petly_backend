@@ -19,10 +19,19 @@ const update = async (req, res) => {
   );
 
   if (updatedUser) {
+    const { name, email, birthday, phone, city, avatarURL, token } =
+      updatedUser;
+
     res.status(200).json({
       message: "Update completed successfully",
-      user: {
-        ...body,
+      dataUser: {
+        name,
+        email,
+        birthday,
+        phone,
+        city,
+        avatarURL,
+        token,
       },
     });
   }
