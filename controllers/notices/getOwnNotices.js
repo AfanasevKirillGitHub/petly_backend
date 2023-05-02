@@ -5,7 +5,11 @@ const getOwnNotices = async (req, res) => {
 
   const notices = await Notice.find({ owner: _id });
 
-  res.status(200).json(notices);
+  res.status(200).json({
+    message: "Successfully",
+    notices,
+    total: notices.length,
+  });
 };
 
 module.exports = getOwnNotices;
