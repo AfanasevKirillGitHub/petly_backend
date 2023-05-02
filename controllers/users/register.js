@@ -30,6 +30,7 @@ const register = async (req, res) => {
       city: newUser.city,
       avatarURL: newUser.avatarURL,
       token: newUser.token,
+      _id: newUser._id,
     },
   });
 };

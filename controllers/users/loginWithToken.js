@@ -20,6 +20,7 @@ const loginWithToken = async (req, res) => {
       city: user.city,
       avatarURL: user.avatarURL,
       token: userToken,
+      _id: user._id,
     },
   });
 };
