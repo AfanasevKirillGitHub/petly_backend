@@ -43,7 +43,7 @@ const getNoticesByCategory = async (req, res, next) => {
       favorite: 1,
     },
     { skip, limit: +limit }
-  );
+  ).populate("owner", "_id");
 
   res
     .status(200)
