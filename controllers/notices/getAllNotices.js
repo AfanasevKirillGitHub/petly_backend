@@ -44,7 +44,7 @@ const getAllNotices = async (req, res) => {
       favorite: 1,
     },
     { skip, limit: +limit }
-  );
+  ).populate("owner", "_id");
 
   res
     .status(200)
