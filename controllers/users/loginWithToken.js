@@ -19,6 +19,7 @@ const loginWithToken = async (req, res) => {
       phone: user.phone,
       avatarURL: user.avatarURL,
       token: userToken,
+      _id: user._id,
     },
   });
 };

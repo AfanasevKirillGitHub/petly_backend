@@ -29,6 +29,7 @@ const login = async (req, res) => {
       phone: user.phone,
       avatarURL: user.avatarURL,
       token,
+      _id: user._id,
     },
   });
 };

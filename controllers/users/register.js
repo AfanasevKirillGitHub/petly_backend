@@ -29,6 +29,7 @@ const register = async (req, res) => {
       phone: newUser.phone,
       avatarURL: newUser.avatarURL,
       token: newUser.token,
+      _id: newUser._id,
     },
   });
 };
