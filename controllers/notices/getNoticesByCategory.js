@@ -28,7 +28,7 @@ const getNoticesByCategory = async (req, res, next) => {
 
   const skip = (page - 1) * limit;
   const notices = await Notice.find(
-    category,
+    { category },
     {
       _id: 1,
       category: 1,
@@ -43,7 +43,7 @@ const getNoticesByCategory = async (req, res, next) => {
       favorite: 1,
     },
     { skip, limit: +limit }
-  );
+  ).populate("owner", "_id");
 
   res
     .status(200)

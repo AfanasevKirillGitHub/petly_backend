@@ -27,6 +27,7 @@ const register = async (req, res) => {
       email: newUser.email,
       birthday: newUser.birthday,
       phone: newUser.phone,
+      city: newUser.city,
       avatarURL: newUser.avatarURL,
       token: newUser.token,
       _id: newUser._id,

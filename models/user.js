@@ -27,8 +27,8 @@ const userSchema = Schema(
     },
     birthday: {
       type: Date,
-      min: "1987-09-28",
-      max: "1994-05-23",
+      min: "1900-01-01",
+      max: "2023-05-01",
     },
     avatarURL: {
       type: String,
