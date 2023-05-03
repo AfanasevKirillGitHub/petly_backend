@@ -11,7 +11,9 @@ const getUserInfo = async (req, res) => {
       phone,
       city,
 
+
       _id,
+
 
     },
   });
