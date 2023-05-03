@@ -1,5 +1,5 @@
 const getUserInfo = async (req, res) => {
-  const { avatarURL, name, email, birthday, phone, city } = req.user;
+  const { avatarURL, name, email, birthday, phone, city, _id } = req.user;
 
   res.status(200).json({
     status: "success",
@@ -10,7 +10,11 @@ const getUserInfo = async (req, res) => {
       birthday,
       phone,
       city,
-      // id: user._id,
+
+
+      _id,
+
+
     },
   });
 };
