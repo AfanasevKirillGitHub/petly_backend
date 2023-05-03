@@ -11,6 +11,7 @@ const update = async (req, res) => {
     message: "Update completed successfully",
     user: {
       ...body,
+      _id,
     },
   });
 };
