@@ -1,9 +1,23 @@
-const { Pet } = require("../../models")
+const { Pet } = require("../../models");
+const { cloudinaryImgUpload } = require("../../helpers");
 
 const addPet = async (req, res) => {
-    const {_id} = req.user;
-    const result = await Pet.create({...req.body, owner: _id})
-    res.status(201).json(result)
+  const {
+    body,
+    file,
+    user: { _id },
+  } = req;
+
+  if (file) {
+    const { avatarURL } = await cloudinaryImgUpload(req);
+    body.photo = avatarURL;
+  }
+
+  const result = await Pet.create({ ...body, owner: _id });
+  res.status(201).json({
+    message: "Upload completed successfully",
+    dataPet: { ...result },
+  });
 };
 
 module.exports = addPet;
