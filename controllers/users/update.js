@@ -3,6 +3,7 @@ const { NotFound } = require("http-errors");
 const { cloudinaryImgUpload } = require("../../helpers");
 
 const update = async (req, res) => {
+
   const { body, file, user } = req;
 
   if (file) {
@@ -14,6 +15,7 @@ const update = async (req, res) => {
     user._id,
     {
       $set: body,
+
     },
     { new: true, runValidators: true }
   );
@@ -32,6 +34,7 @@ const update = async (req, res) => {
         city,
         avatarURL,
         token,
+        _id:user._id
       },
     });
   }
