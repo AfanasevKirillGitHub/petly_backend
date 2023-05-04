@@ -38,6 +38,7 @@ const getAllNotices = async (req, res) => {
       birthdate: 1,
       [`breed.${lang}`]: 1,
       sex: 1,
+      avatarURL: 1,
       location: { [`city.${lang}`]: 1, [`region.${lang}`]: 1 },
       [`comments.${lang}`]: 1,
       price: 1,

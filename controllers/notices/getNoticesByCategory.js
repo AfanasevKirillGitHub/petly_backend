@@ -8,7 +8,7 @@ const getNoticesByCategory = async (req, res, next) => {
     return next();
   }
 
-  const { lang = "ua", page = 1, limit = 12 } = req.query;
+  const { lang = "ua", page = 1, limit = 12, key = "" } = req.query;
 
   // ------- Пренести в константи
   const languages = {
@@ -26,9 +26,24 @@ const getNoticesByCategory = async (req, res, next) => {
     );
   }
 
+  const noticesFilter = {
+    [`title.${lang}`]: { $exists: true },
+    ["category"]: { $regex: category },
+  };
+
+  if (key) {
+    noticesFilter.$or = [
+      {
+        [`title.${lang}`]: { $regex: key, $options: "i" },
+        ["category"]: { $regex: category },
+      },
+    ];
+  }
+
   const skip = (page - 1) * limit;
   const notices = await Notice.find(
-    { category },
+    noticesFilter,
+
     {
       _id: 1,
       category: 1,
@@ -37,6 +52,7 @@ const getNoticesByCategory = async (req, res, next) => {
       birthdate: 1,
       [`breed.${lang}`]: 1,
       sex: 1,
+      avatarURL: 1,
       location: { [`city.${lang}`]: 1, [`region.${lang}`]: 1 },
       [`comments.${lang}`]: 1,
       price: 1,
