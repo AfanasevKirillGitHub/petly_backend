@@ -26,9 +26,9 @@ router.post(
 router.post(
   "/",
   auth,
-  upload.single("image"),
+  upload.single("avatarURL"),
   /*translate,*/
-  validation(noticeJoiSchema),
+  // validation(noticeJoiSchema),
   ctrlWrapper(ctrl.addNotice)
 ); // створює оголошення
 
