@@ -17,6 +17,7 @@ const addNotice = async (req, res) => {
 
   const notice = new Notice({
     ...req.body,
+    price: Number(req.body.price),
     avatarURL: noticeAvatarURL,
     idCloudAvatar: noticeCloudAvatar,
     owner,
