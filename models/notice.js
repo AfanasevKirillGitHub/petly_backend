@@ -12,22 +12,11 @@ const noticeSchema = new Schema(
       description: "Notice categories",
     },
     title: {
-      en: {
-        type: String,
-        min: 2,
-        max: 48,
-        match: /[a-zA-Z]/,
-        required: [true, "Title is required"],
-        description: "Notice title in en",
-      },
-      ua: {
-        type: String,
-        min: 2,
-        max: 48,
-        match: /[а-яА-Я]/,
-        required: [true, "Title is required"],
-        description: "Notice title in ua",
-      },
+      type: String,
+      min: 2,
+      max: 48,
+      match: /[a-zA-Z]/,
+      required: [true, "Title is required"],
     },
     name: {
       type: String,
@@ -43,77 +32,19 @@ const noticeSchema = new Schema(
       description: "Notice birth date",
     },
     breed: {
-      en: {
-        type: String,
-        min: 2,
-        max: 24,
-        match: /[a-zA-Z]/,
-        required: [true, "Breed is required"],
-        description: "Notice breed in en",
-      },
-      ua: {
-        type: String,
-        min: 2,
-        max: 24,
-        match: /[а-яА-Я]/,
-        required: [true, "Breed is required"],
-        description: "Notice breed in ua",
-      },
+      type: String,
+      min: 2,
+      max: 24,
+      match: /[a-zA-Z]/,
+      required: [true, "Breed is required"],
     },
     sex: {
       type: String,
       enum: ["male", "female"],
       required: [true, "Sex is required"],
     },
-    location: {
-      type: Object,
-      city: {
-        en: {
-          type: String,
-          min: 2,
-          max: 36,
-          match: /[a-zA-Z]/,
-          description: "Notice city in en",
-        },
-        ua: {
-          type: String,
-          min: 2,
-          max: 36,
-          match: /[а-яА-Я]/,
-          description: "Notice city in ua",
-        },
-      },
-      region: {
-        en: {
-          type: String,
-          min: 2,
-          max: 48,
-          match: /[a-zA-Z]/,
-          description: "Notice region in en",
-        },
-        ua: {
-          type: String,
-          min: 2,
-          max: 48,
-          match: /[а-яА-Я]/,
-          description: "Notice region in ua",
-        },
-      },
-    },
-    comments: {
-      en: {
-        type: String,
-        min: 8,
-        max: 120,
-        description: "Notice comments in en",
-      },
-      ua: {
-        type: String,
-        min: 8,
-        max: 120,
-        description: "Notice comments in ua",
-      },
-    },
+    location: { type: String, min: 2, max: 36, match: /[a-zA-Z]/ },
+    comments: { type: String, min: 8, max: 120 },
     price: {
       type: Number,
       default: 0,
@@ -133,75 +64,33 @@ const noticeSchema = new Schema(
 
 const noticeJoiSchema = Joi.object({
   category: Joi.string().valid("sell", "lost-found", "for-free").required(),
-  title: Joi.object({
-    en: Joi.string()
-      .min(2)
-      .max(48)
-      .pattern(/[a-zA-Z]/)
-      .required(),
-    ua: Joi.string()
-      .min(2)
-      .max(48)
-      .pattern(/[а-яА-Я]/)
-      .required(),
-  }),
+  title: Joi.string()
+    .min(2)
+    .max(48)
+    .pattern(/[a-zA-Z]/)
+    .required(),
   name: Joi.string()
     .min(2)
     .max(16)
     .pattern(/[a-zA-Zа-яА-Я]/)
     .required(),
   birthdate: Joi.string(),
-  breed: Joi.object({
-    en: Joi.string()
-      .min(2)
-      .max(24)
-      .pattern(/[a-zA-Z]/)
-      .required(),
-    ua: Joi.string()
-      .min(2)
-      .max(24)
-      .pattern(/[а-яА-Я]/)
-      .required(),
-  }),
+  breed: Joi.string()
+    .min(2)
+    .max(24)
+    .pattern(/[a-zA-Z]/)
+    .required(),
   sex: Joi.string().valid("male", "female").required(),
-  location: Joi.object({
-    city: Joi.object({
-      en: Joi.string()
-        .min(2)
-        .max(36)
-        .pattern(/[a-zA-Z]/)
-        .required(),
-      ua: Joi.string()
-        .min(2)
-        .max(36)
-        .pattern(/[а-яА-Я]/)
-        .required(),
-    }),
-    region: Joi.object({
-      en: Joi.string()
-        .min(2)
-        .max(48)
-        .pattern(/[a-zA-Z]/)
-        .required(),
-      ua: Joi.string()
-        .min(2)
-        .max(48)
-        .pattern(/[а-яА-Я]/)
-        .required(),
-    }),
-  }),
-  comments: Joi.object({
-    en: Joi.string()
-      .min(8)
-      .max(120)
-      .pattern(/[a-zA-Z]/)
-      .required(),
-    ua: Joi.string()
-      .min(8)
-      .max(120)
-      .pattern(/[а-яА-Я]/)
-      .required(),
-  }),
+  location: Joi.string()
+    .min(2)
+    .max(36)
+    .pattern(/[a-zA-Z]/)
+    .required(),
+  comments: Joi.string()
+    .min(8)
+    .max(120)
+    .pattern(/[a-zA-Z]/)
+    .required(),
   price: Joi.number().default(0),
   favorite: Joi.array().items(Joi.string()).default(false),
   avatarURL: Joi.string(),
