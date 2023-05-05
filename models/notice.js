@@ -15,7 +15,7 @@ const noticeSchema = new Schema(
       type: String,
       min: 2,
       max: 48,
-      match: /[a-zA-Z]/,
+      match: /[a-zA-Zа-яА-Я]/,
       required: [true, "Title is required"],
     },
     name: {
@@ -35,7 +35,7 @@ const noticeSchema = new Schema(
       type: String,
       min: 2,
       max: 24,
-      match: /[a-zA-Z]/,
+      match: /[a-zA-Zа-яА-Я]/,
       required: [true, "Breed is required"],
     },
     sex: {
@@ -43,7 +43,7 @@ const noticeSchema = new Schema(
       enum: ["male", "female"],
       required: [true, "Sex is required"],
     },
-    location: { type: String, min: 2, max: 36, match: /[a-zA-Z]/ },
+    location: { type: String, min: 2, max: 36, match: /[a-zA-Zа-яА-Я]/ },
     comments: { type: String, min: 8, max: 120 },
     price: {
       type: Number,
